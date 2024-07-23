@@ -32,7 +32,7 @@ def main():
             course_name = input("Enter course name: ")
             score = float(input("Enter course score: "))
             gradebook.register_student_for_course(student_email, course_name, score)
-            print("\nStudent registered for course successfully.\n")
+            print("\nStudent registered for course and GPA calculated successfully.\n")
         
         elif choice == '4':
             gradebook.calculate_ranking()
@@ -46,15 +46,13 @@ def main():
             students = gradebook.search_by_grade(min_grade, max_grade)
             print("\nSearch completed. Students within the grade range:\n")
             for student in students:
-                print(f"{student.email} - GPA: {student.gpa}")
+                print(f">> {student.names} (GPA: {student.gpa})")
         
         elif choice == '6':
             transcripts = gradebook.generate_transcript()
             print("\nTranscripts generated successfully.\n")
             for transcript in transcripts:
-                print(f"Email: {transcript['email']}, Names: {transcript['names']}, GPA: {transcript['gpa']}")
-                for course in transcript['courses']:
-                    print(f"  Course: {course['name']}, Credits: {course['credits']}, Score: {course['score']}")
+                print(f"Transcript for {transcript['names']}:\nGPA: {transcript['gpa']}\n")
         
         elif choice == '7':
             print("\nExiting the program.\n")

@@ -34,7 +34,6 @@ class GradeBook:
         transcripts = []
         for student in self.student_list:
             transcripts.append({
-                'email': student.email,
                 'names': student.names,
                 'gpa': student.gpa,
                 'courses': [{'name': c['course'].name, 'credits': c['credits'], 'score': c['score']} for c in student.courses_registered]

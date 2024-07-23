@@ -15,4 +15,5 @@ class Student:
     
     def register_for_course(self, course, score):
         self.courses_registered.append({'course': course, 'credits': course.credits, 'score': score})
+        self.calculate_GPA()
 
