@@ -1,3 +1,4 @@
+import json
 from student import Student
 from course import Course
 
@@ -39,4 +40,54 @@ class GradeBook:
                 'courses': [{'name': c['course'].name, 'credits': c['credits'], 'score': c['score']} for c in student.courses_registered]
             })
         return transcripts
+    
+    def save_to_file(self, filename):
+        data = {
+            'students': [
+                {
+                    'email': student.email,
+                    'names': student.names,
+                    'courses_registered': [
+                        {'course': course['course'].name, 'credits': course['credits'], 'score': course['score']}
+                        for course in student.courses_registered
+                    ],
+                    'gpa': student.gpa
+                }
+                for student in self.student_list
+            ],
+            'courses': [
+                {'name': course.name, 'trimester': course.trimester, 'credits': course.credits}
+                for course in self.course_list
+            ]
+        }
+        with open(filename, 'w') as file:
+            json.dump(data, file, indent=4)
+    
+    def load_from_file(self, filename):
+        try:
+            with open(filename, 'r') as file:
+                data = json.load(file)
+                self.student_list = [
+                    self._create_student_from_dict(student_data)
+                    for student_data in data['students']
+                ]
+                self.course_list = [
+                    Course(course_data['name'], course_data['trimester'], course_data['credits'])
+                    for course_data in data['courses']
+                ]
+        except FileNotFoundError:
+            pass
+    
+    def _create_student_from_dict(self, data):
+        student = Student(data['email'], data['names'])
+        student.courses_registered = [
+            {
+                'course': Course(course['course'], 'N/A', course['credits']),
+                'credits': course['credits'],
+                'score': course['score']
+            }
+            for course in data['courses_registered']
+        ]
+        student.calculate_GPA()
+        return student
 

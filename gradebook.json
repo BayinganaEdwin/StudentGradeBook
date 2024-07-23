@@ -1,0 +1,11 @@
+{
+    "students": [
+        {
+            "email": "noel@gmail.com",
+            "names": "Noel Odero",
+            "courses_registered": [],
+            "gpa": 0.0
+        }
+    ],
+    "courses": []
+}
